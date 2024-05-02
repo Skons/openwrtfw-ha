@@ -68,6 +68,3 @@ do
 done
 
 echo "announcer done"
-
-
-echo "i'm out"

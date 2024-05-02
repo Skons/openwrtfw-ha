@@ -4,6 +4,7 @@ general:
   pwd: #mqtt broker password
   port: #mqtt broker port
   names: "roku ipad  firetablet" #space separated list of entities that you wish to control
+  announcerWait: 300 #the time the announcer waits in seconds before it checks the rules again
   mqttPrefix: homeassistant #leave this like this if you want HA to recognize the entities Do not change
   mqttType: switch #switch device for HA integration. Do not change
   mqttConfig: config #mqtt message that signs for configuration paramaters. Do not change
@@ -14,25 +15,26 @@ general:
   mqttNode: openwrt #name for your node... can use anything
 
 #for each of the devices in "names" you need to tell the script the rule number to modify
-#first create in openwrt the rules that you want to activate/deactivate. You can use LUCI or the command interface. 
+#first create in openwrt the rules that you want to activate/deactivate. You can use LUCI or the command interface.
 #once you have created the rules, then use "uci show firewall" to display the rules. Determine which rules correspond to the device you are trying to control
+#and then run uci show firewall.@rule[3]
 
-#for example, to block the firetablet I have rule #3
-#firewall.@rule[3]=rule
-#firewall.@rule[3].name='firekill'
-#firewall.@rule[3].target='REJECT'
-#firewall.@rule[3].src_mac='XXXXXXXX'
-#firewall.@rule[3].dest='wan'
-#firewall.@rule[3].src='lan'
-#firewall.@rule[3].enabled='0'
+#for example, to block the firetablet I have rule cfg2192bd
+#firewall.cfg2192bd=rule
+#firewall.cfg2192bd.name='firekill'
+#firewall.cfg2192bd.target='REJECT'
+#firewall.cfg2192bd.src_mac='XXXXXXXX'
+#firewall.cfg2192bd.dest='wan'
+#firewall.cfg2192bd.src='lan'
+#firewall.cfg2192bd.enabled='0'
 
-#note that enabled=1 means that the rule is active, or that the internet is "off" for that device. 
+#note that enabled=1, or the abscense of the property enabled, means that the rule is active, or that the internet is "off" for that device.
 
 roku:
-  rule: 1
+  rule: cfg2162bd
 
 ipad:
-  rule: 2
+  rule: cfg1192bd
 
 firetablet:
-  rule: 3
+  rule: cfg2192bd
